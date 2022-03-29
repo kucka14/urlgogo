@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div id="main-container">
+
+    <div id="main-header">
+
+        <div>
+            URLgogo
+        </div>
+
+        {% if user_id != -1 %}
+        <div style="display: flex; align-items: center;">
+            <div title="{{ userdisplay }}" id="userdisplay-line" class="ellipsis-line">{{ userdisplay }}</div>
+            <a href="/c7001667f5e7626138e9e4334f4a9766"><button>Logout</button></a>
+        </div>
+    </div>
+
+        {% else %}
+
+        <div>
+            <button id="sign-in-button" type="button" data-bs-toggle="modal" data-bs-target="#sign-in-modal">
+                Login
+            </button>
+            <button id="sign-up-button" type="button" data-bs-toggle="modal" data-bs-target="#sign-up-modal">
+                Sign Up
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal for signing up -->
+    <div class="modal fade" id="sign-up-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div>{{ register_form.non_field_errors.as_text }}</div>
+                        <div>
+                            <strong>Enter Username</strong><br>
+                            {{ register_form.username }}
+                            <div>{{ register_form.username.errors.as_text }}</div>
+                        </div>
+                        <div>
+                            <strong>Enter Email</strong><br>
+                            {{ register_form.email }}
+                            <div>{{ register_form.email.errors.as_text }}</div>
+                        </div>
+                        <div>
+                            <strong>Enter Password</strong><br>
+                            {{ register_form.password1 }}
+                            <div>{{ register_form.password1.errors.as_text }}</div>
+                        </div>
+                        <div>
+                            <strong>Re-enter Password</strong><br>
+                            {{ register_form.password2 }}
+                            <div>{{ register_form.password2.errors.as_text }}</div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" value="Sign Up" name="register_submit"> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for signing in -->
+    <div class="modal fade" id="sign-in-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form action='' method='post'>
+                        {% csrf_token %}
+                        <div>{{ login_form.non_field_errors.as_text }}</div>
+                        <div>
+                            <strong>Username</strong><br>
+                            {{ login_form.username }}
+                            <div>{{ login_form.username.errors.as_text }}</div>
+                        </div>
+                        <div>
+                            <strong>Password</strong><br>
+                            {{ login_form.password }}
+                            <div>{{ login_form.password.errors.as_text }}</div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" value="Sign In" name="login_submit"> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div id="add-url-box">
+        <div class="add-url-textline">When someone types...</div>
+        <div class="add-url-line">
+            <div>urlgogo.com/</div>
+            <input id="in-url-input" type="text">
+        </div>
+        <div class="add-url-textline">...they will be directed to...</div>
+        <div class="add-url-line">
+            <input id="out-url-input" type="text">
+        </div>
+        <div style="text-align: center;">
+            <button id="set-url-button" type="button">Add URL</button>
+        </div> 
+    </div>
+    
+    <hr>
+
+    <div id="couplet-display"></div>
+    
+</div>
+
+<!--Trigger for merge modal-->
+<button id="merge-modal-trigger" style="display: none;" type="button" data-bs-toggle="modal" data-bs-target="#merge-modal"></button>
+<!-- Modal for merging -->
+<div class="modal fade" id="merge-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog">
+        <div id="merge-modal-content" class="modal-content">
+            <div style="text-align: center;">
+                You have locally saved URLs that are not on your account.<br>Would you like to add them?
+            </div>
+            <button id="merge-button">Yes, add them.</button>
+            <button id="dismiss-merge" data-bs-dismiss="modal">No, do not add them.</button>
+        </div>
+    </div>
+</div>
+
+<div id="footer">
+    <div>
+        © 2022 URLgogo | openmath.us@gmail.com
+    </div>
+    <div>
+        <a href="/terms_conditions" target="_blank">Terms and Conditions</a> | <a href="/privacy_policy" target="_blank">Privacy Policy</a> | <a href="/cookies_policy" target="_blank">Cookies Policy</a>
+    </div>
+</div>
+
+{{ couplet_list|json_script:"couplet_list" }}
+{{ user_id|json_script:"user_id" }}
+
+{% if popup == 'registered' %}
+<script>
+    setTimeout(function() {
+        alert('You have registered and are now signed into your account.');
+    });
+</script>
+{% elif popup != '' %}
+<script>
+    setTimeout(function() {
+       document.getElementById("{{ popup }}").click();
+    });
+</script>
+{% endif %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="/static/redirect/js/index.js"></script>
+<script>
+	setIndex();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
