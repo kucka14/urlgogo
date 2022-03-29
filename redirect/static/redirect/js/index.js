@@ -155,7 +155,12 @@ function ajaxPost(dataPost, type, merge=false) {
             if (type == 'add') {
                 alert('That URL (in the top box) is taken.');
             } else {
-                alert('Something went wrong.');
+//                alert('Something went wrong.');
+                const target = document.getElementById(dataPost);
+                target.outerHTML = '';
+                if (sessionStorage.length > 0) {
+                    removeLocally(dataPost);
+                }
             }
         }
     });
