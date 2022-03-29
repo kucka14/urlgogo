@@ -89,8 +89,6 @@ function getLocalList(userId) {
 
 function ajaxPost(dataPost, type, merge=false) {
     
-    dataPost = [dataPost, merge];
-    
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -120,11 +118,13 @@ function ajaxPost(dataPost, type, merge=false) {
         postUrl = '/ec8db41d74c36b954821ab64f8226de0/';
     }
     
+    totalPost = [dataPost, merge];
+    
     jQuery.ajax({
         type: 'POST',
         url: postUrl,
         data: {
-            dataPost: JSON.stringify(dataPost)
+            totalPost: JSON.stringify(totalPost)
         },
         success: function() {
             if (type == 'add') {

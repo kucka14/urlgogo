@@ -14,7 +14,7 @@ def c7001667f5e7626138e9e4334f4a9766(request):
     
 def e35e6da7bdbc4c0bec05f32bea5c6ae1(request):
     if request.method == 'POST':
-        total_post = request.POST.get('dataPost', None)
+        total_post = request.POST.get('totalPost', None)
         total_post = json.loads(total_post)
         add_post = total_post[0]
         merge = total_post[1]
@@ -42,7 +42,7 @@ def e35e6da7bdbc4c0bec05f32bea5c6ae1(request):
     
 def ec8db41d74c36b954821ab64f8226de0(request):
     if request.method == 'POST':
-        total_post = request.POST.get('dataPost', None)
+        total_post = request.POST.get('totalPost', None)
         total_post = json.loads(total_post)
         in_url = total_post[0]
         merge = total_post[1]
